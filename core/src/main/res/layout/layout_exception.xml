@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:visibility="invisible">
+
+    <TextView
+        android:id="@+id/tvMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:textColor="@color/text_dark_second"
+        android:textSize="16sp"
+        android:text="@string/net_load_error" />
+
+    <View
+        android:id="@+id/icon"
+        android:layout_width="143dp"
+        android:layout_height="143dp"
+        android:layout_above="@+id/tvMsg"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/ic_exception" />
+
+    <Button
+        android:id="@+id/btnRetry"
+        android:layout_width="150dp"
+        android:layout_height="48dp"
+        android:layout_below="@+id/tvMsg"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/selector_btn_retry"
+        android:textColor="@color/text_light_primary"
+        android:textSize="18sp"
+        android:text="@string/btn_retry" />
+
+</RelativeLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp"
+    android:background="#ff353535">
+
+    <View
+        android:id="@+id/ivCamera"
+        android:layout_width="57dp"
+        android:layout_height="57dp"
+        android:background="@drawable/pp_camera" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/white"
+        android:text="@string/tv_camera" />
+</LinearLayout>

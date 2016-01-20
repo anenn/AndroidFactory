@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Factory</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="title_section1">Line Chart</string>
+    <string name="title_section2">Bar Chart</string>
+    <string name="title_section3">Clock Pie View</string>
+    <string name="title_section4">Pie Chart</string>
+</resources>

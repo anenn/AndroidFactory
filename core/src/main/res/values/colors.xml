@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#ffffff</color>
+
+    <color name="text_light_primary">@color/white</color>
+    <color name="text_light_second" >#B2FFFFFF</color>
+    <color name="text_light_hint">#4CFFFFFF</color>
+    <color name="text_dark_primary">#DD000000</color>
+    <color name="text_dark_second">#89000000</color>
+    <color name="text_dark_hint">#42000000</color>
+
+    <color name="btn_normal">#309EE8</color>
+    <color name="btn_pressed">#2882BF</color>
+</resources>

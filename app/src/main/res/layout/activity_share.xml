@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="toQQOAuth"
+        android:padding="12dp"
+        android:text="QQ授权登录" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="toSinaOAuth"
+        android:padding="12dp"
+        android:text="Sina授权登录" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="toQQOAuthDel"
+        android:padding="12dp"
+        android:text="QQ授权取消" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="toSinaOAuthDel"
+        android:padding="12dp"
+        android:text="Sina授权取消" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="toShare"
+        android:padding="12dp"
+        android:text="Share" />
+</LinearLayout>

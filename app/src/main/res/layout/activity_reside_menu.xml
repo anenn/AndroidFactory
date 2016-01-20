@@ -1,0 +1,38 @@
+<com.anenn.residemenu.DragLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dragLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_sliding_menu">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="50dp"
+        android:paddingBottom="30dp"
+        android:paddingLeft="30dp"
+        android:paddingStart="30dp">
+
+        <TextView
+            android:id="@+id/tv_mail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            android:text="wyfmor@163.com" />
+    </RelativeLayout>
+
+    <com.anenn.residemenu.MyRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#eeeeee">
+
+        <TextView
+            android:id="@+id/iv_noimg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="你的系统相册没有图片哦~"
+            android:visibility="gone" />
+    </com.anenn.residemenu.MyRelativeLayout>
+</com.anenn.residemenu.DragLayout>

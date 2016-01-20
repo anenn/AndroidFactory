@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    style="@style/NavPage">
+    
+    <TextView
+        style="@style/TitleText"
+        android:text="@string/bc_pay_wx_title"/>
+    
+    <Button
+        android:id="@+id/check_pay_btn"
+        style="@style/MMLineActionButton"
+	    android:layout_margin="10dp"
+        android:text="@string/bc_pay_goto_wx"/>
+
+    <EditText
+        android:id="@+id/tokenId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:text="c789f0b790971d11858e333c36b1f461"
+        android:ems="10" >
+    </EditText>
+    
+    <WebView  
+        android:id="@+id/webView" 
+        android:layout_width="fill_parent" 
+        android:layout_height="fill_parent" /> 
+    
+</LinearLayout>

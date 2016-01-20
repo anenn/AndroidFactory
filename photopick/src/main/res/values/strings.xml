@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">PhotoPick</string>
+    <string name="tv_camera">相机</string>
+    <string name="menu_finish">完成</string>
+    <string name="tv_choice">选择</string>
+    <string name="tv_del">删除</string>
+    <string name="tv_review">预览</string>
+    <string name="tv_send">发送</string>
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/NavPage"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/TitleText"
+        android:text="@string/pay_by_wx_title" />
+
+    <Button
+        android:id="@+id/unifiedorder_btn"
+        style="@style/MMLineActionButton"
+        android:layout_margin="10dp"
+        android:text="@string/unifiedorder_v3_wx" />
+
+    <Button
+        android:id="@+id/appay_pre_btn"
+        style="@style/MMLineActionButton"
+        android:layout_margin="10dp"
+        android:text="@string/pay__pre_by_wxap" />
+
+    <Button
+        android:id="@+id/appay_btn"
+        style="@style/MMLineActionButton"
+        android:layout_margin="10dp"
+        android:text="@string/pay_by_wxap" />
+
+    <TextView
+        android:id="@+id/editText_prepay_id"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></TextView>
+</LinearLayout>

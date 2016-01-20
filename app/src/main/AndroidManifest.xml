@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.anenn.factory">
+
+    <!-- ######## 二维码扫描SDK使用的相关权限 ######## -->
+    <!--<uses-permission android:name="android.permission.VIBRATE" />-->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!--<uses-feature android:name="android.hardware.camera" />-->
+    <!--<uses-feature android:name="android.hardware.camera.autofocus" />-->
+    <!-- ######## 二维码扫描SDK使用的相关权限 ######## -->
+
+    <!-- AliPay SDK Permission -->
+    <!--<uses-permission android:name="android.permission.INTERNET" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+    <!-- AliPay SDK Permission -->
+
+    <!-- ######## 社会化分享声明SDK使用的相关权限 ######## -->
+    <!-- 检测网络状态 -->
+    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+    <!--&lt;!&ndash; 获取mac地址作为用户的备用唯一标识 &ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+    <!--&lt;!&ndash; 获取用户手机的IMEI，用来唯一的标识用户 &ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+    <!--&lt;!&ndash; 缓存资源优先存入SDcard &ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+    <!--&lt;!&ndash; 允许应用程序联网，以便向我们的服务器端发送数据 &ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.INTERNET" />-->
+    <!--&lt;!&ndash; QQ、QQ空间所需权限 &ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.GET_TASKS" />-->
+    <!--<uses-permission android:name="android.permission.SET_DEBUG_APP" />-->
+    <!--<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />-->
+    <!--<uses-permission android:name="android.permission.GET_ACCOUNTS" />-->
+    <!--<uses-permission android:name="android.permission.USE_CREDENTIALS" />-->
+    <!--<uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />-->
+    <!-- ######## 社会化分享声明SDK使用的相关权限 ######## -->
+
+    <!-- ######## 微信支付声明SDK使用的相关权限 ######## -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!--<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- ######## 微信支付声明SDK使用的相关权限 ######## -->
+
+    <application
+        android:name=".ClientApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!--<meta-data-->
+        <!--android:name="UMENG_APPKEY"-->
+        <!--android:value="563e0c1ee0f55a18be004436" />-->
+
+        <activity
+            android:name=".photo.ImageShowActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.anenn.photopick.ImagePagerActivity" />
+        <activity android:name="com.anenn.photopick.PhotoPickActivity" />
+        <activity android:name="com.anenn.photopick.PhotoPickDetailActivity" />
+
+        <!-- ######## 支付宝支付SDK使用的Activity ######## -->
+        <!--<activity-->
+        <!--android:name="com.alipay.sdk.app.H5PayActivity"-->
+        <!--android:configChanges="orientation|keyboardHidden|navigation"-->
+        <!--android:exported="false"-->
+        <!--android:screenOrientation="behind"-->
+        <!--android:windowSoftInputMode="adjustResize|stateHidden"></activity>-->
+        <!-- ######## 支付宝支付SDK使用的Activity ######## -->
+
+        <!-- ######## 社会化分享SDK使用的Activity ######## -->
+        <!--分享编辑页-->
+        <!--<activity-->
+        <!--android:name="com.umeng.socialize.view.ShareActivity"-->
+        <!--android:configChanges="orientation|keyboard"-->
+        <!--android:launchMode="singleTask"-->
+        <!--android:noHistory="true"-->
+        <!--android:theme="@style/Theme.UMDialog"-->
+        <!--android:windowSoftInputMode="stateVisible|adjustResize" />-->
+        <!-- QQ空间和QQ SSO授权的Activity注册 -->
+        <!--<activity-->
+        <!--android:name="com.tencent.tauth.AuthActivity"-->
+        <!--android:launchMode="singleTask"-->
+        <!--android:noHistory="true">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.VIEW" />-->
+
+        <!--<category android:name="android.intent.category.DEFAULT" />-->
+        <!--<category android:name="android.intent.category.BROWSABLE" />-->
+        <!--&lt;!&ndash; 100424468，如果你使用的公用账号，则不需要修改；否则修改成你在QQ开放平台申请的 APP ID&ndash;&gt;-->
+        <!--<data android:scheme="tencent1104952698" />-->
+        <!--</intent-filter>-->
+        <!--</activity>-->
+        <!--<activity-->
+        <!--android:name="com.tencent.connect.common.AssistActivity"-->
+        <!--android:theme="@android:style/Theme.Translucent.NoTitleBar"-->
+        <!--android:screenOrientation="portrait" />-->
+        <!-- 微信和微信朋友圈分享回调-->
+        <!--<activity-->
+        <!--android:name=".wxapi.WXEntryActivity"-->
+        <!--android:theme="@android:style/Theme.Translucent.NoTitleBar"-->
+        <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
+        <!--android:exported="true"-->
+        <!--android:screenOrientation="portrait" />-->
+        <!-- ######## 社会化分享SDK使用的Activity ######## -->
+
+        <!-- ######## 微信支付SDK使用的Activity ######## -->
+        <!--<activity-->
+        <!--android:name=".WXPayActivity"-->
+        <!--android:launchMode="singleTop">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.MAIN" />-->
+        <!--<category android:name="android.intent.category.LAUNCHER" />-->
+        <!--</intent-filter>-->
+
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.VIEW" />-->
+        <!--<category android:name="android.intent.category.DEFAULT" />-->
+        <!--<data android:scheme="wxf2f565574a968187" />-->
+        <!--</intent-filter>-->
+        <!--</activity>-->
+        <!--<activity-->
+        <!--android:name="com.anenn.wxpay.wxapi.WXPayEntryActivity"-->
+        <!--android:exported="false"-->
+        <!--android:launchMode="singleTop" />-->
+
+        <!--<receiver android:name="com.anenn.wxpay.AppRegister">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />-->
+        <!--</intent-filter>-->
+        <!--</receiver>-->
+        <!-- ######## 微信支付SDK使用的Activity ######## -->
+
+    </application>
+</manifest>

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Core</string>
+    <string name="net_loading">加载中...</string>
+    <string name="net_load_failed">加载失败, 点击重新加载</string>
+    <string name="net_load_error">数据获取失败\n请检查下网络是否通畅</string>
+    <string name="net_error">网络连接异常, 请检查后重试</string>
+    <string name="btn_retry">点击重试</string>
+</resources>
