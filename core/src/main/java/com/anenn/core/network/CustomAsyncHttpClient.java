@@ -30,7 +30,7 @@ public class CustomAsyncHttpClient {
 
     public static synchronized AsyncHttpClient createClient(Context context) {
         if (client == null) {
-            AsyncHttpClient client = new AsyncHttpClient();
+            client = new AsyncHttpClient();
             PersistentCookieStore cookieStore = new PersistentCookieStore(context);
             client.setCookieStore(cookieStore);
             try {

@@ -53,7 +53,7 @@ public abstract class PhotoManager {
     // 图片缩放使能位
     private boolean isAspect;
     // 图片进行裁剪使能位
-    private boolean isNeedCrop;
+    private boolean isNeedCrop = true;
     // 图片裁剪限制条件
     private boolean isCropLimit;
 
@@ -103,7 +103,7 @@ public abstract class PhotoManager {
 //        aspectX = x;
 //        aspectY = y;
 //    }
-//
+
 //    /**
 //     * 设置是否可对图片进行裁剪
 //     *
@@ -112,7 +112,7 @@ public abstract class PhotoManager {
 //    private void setNeedCrop(boolean isNeedCrop) {
 //        this.isNeedCrop = isNeedCrop;
 //    }
-//
+
 //    /**
 //     * 是否限制图片的裁剪功能
 //     *
@@ -123,7 +123,7 @@ public abstract class PhotoManager {
 //        if (cropLimit)
 //            isNeedCrop = true;
 //    }
-//
+
 //    /**
 //     * 弹出图片选择窗口，针对多张图片选择
 //     *
@@ -218,6 +218,13 @@ public abstract class PhotoManager {
         }
     }
 
+    /**
+     * 事件回调
+     *
+     * @param requestCode 请求码
+     * @param resultCode  结果码
+     * @param data        数据包
+     */
     public final void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_MULTI_PHOTO) {
@@ -232,15 +239,7 @@ public abstract class PhotoManager {
                         fileUri = temp;
                 }
                 if (!isNeedCrop) {
-                    try {
-                        String filePath = CameraPhotoUtil.getPath(mContext, fileUri);
-                        if (!TextUtils.isEmpty(filePath)) {
-                            File file = PhotoScaleUtil.scale(mContext, filePath);
-                            obtainSinglePhoto(file.getAbsolutePath());
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    dealFilePath();
                 } else {
                     fileCropUri = CameraPhotoUtil.getOutputMediaFileUri();
                     cropImageUri(fileUri, fileCropUri, REQUEST_PHOTO_CROP);
@@ -257,12 +256,20 @@ public abstract class PhotoManager {
         }
     }
 
-    public void obtainMultiPhoto(List<String> imageInfoList) {
+    /**
+     * 文件路径处理处理
+     */
+    private void dealFilePath() {
+        try {
+            String filePath = CameraPhotoUtil.getPath(mContext, fileUri);
+            if (!TextUtils.isEmpty(filePath)) {
+                File file = PhotoScaleUtil.scale(mContext, filePath);
+                obtainSinglePhoto(file.getAbsolutePath());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-
-    public abstract void obtainSinglePhoto(String path);
-
-    public abstract void viewImagesCallback(List<String> uriList);
 
     /**
      * 自定义裁剪后图片的大小
@@ -294,10 +301,17 @@ public abstract class PhotoManager {
                 mActivity.startActivityForResult(intent, requestCode);
             }
         } catch (ActivityNotFoundException e) {
-            e.printStackTrace();
             T.t("当前手机不支持图片裁剪功能");
+            dealFilePath();
         }
     }
+
+    public void obtainMultiPhoto(List<String> imageInfoList) {
+    }
+
+    public abstract void obtainSinglePhoto(String path);
+
+    public abstract void viewImagesCallback(List<String> uriList);
 
     /**
      * 释放资源

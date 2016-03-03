@@ -5,17 +5,17 @@ package com.anenn.alipay;
  * Created by Anenn on 2015/11/4.
  */
 public class OrderBO {
-    private String order_no; // 商户网站唯一订单号
+    private String out_trade_no; // 商户网站唯一订单号
     private String subject; // 商品名称
     private String body; // 商品详情
     private double price; // 商品金额
 
-    public String getOrder_no() {
-        return order_no;
+    public String getOut_trade_no() {
+        return out_trade_no;
     }
 
-    public void setOrder_no(String order_no) {
-        this.order_no = order_no;
+    public void setOut_trade_no(String out_trade_no) {
+        this.out_trade_no = out_trade_no;
     }
 
     public String getSubject() {

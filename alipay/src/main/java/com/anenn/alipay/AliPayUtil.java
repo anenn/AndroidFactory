@@ -122,6 +122,16 @@ public class AliPayUtil implements Callback {
         final String payInfo = orderInfo + "&sign=\"" + sign + "\"&" + getSignType();
 
         // 启动支付
+        pay(payInfo);
+    }
+
+    /**
+     * 启动支付
+     *
+     * @param payInfo 支付信息
+     */
+    public void pay(final String payInfo) {
+        // 启动支付
         Runnable payRunnable = new Runnable() {
             @Override
             public void run() {
@@ -162,7 +172,7 @@ public class AliPayUtil implements Callback {
         sb.append(aliPayBO.getAccount());
         // 商户网站唯一订单号
         sb.append("\"&out_trade_no=\"");
-        sb.append(orderBO.getOrder_no());
+        sb.append(orderBO.getOut_trade_no());
         // 商品名称
         sb.append("\"&subject=\"");
         sb.append(orderBO.getSubject());
@@ -210,15 +220,6 @@ public class AliPayUtil implements Callback {
     }
 
     /**
-     * sign the order info. 对订单信息进行签名
-     *
-     * @param content 待签名订单信息
-     */
-    private String sign(String content, String privateKey) {
-        return SignUtils.sign(content, privateKey);
-    }
-
-    /**
      * 获取sign_type参数信息，因为该参数不需要参加签名
      * 获取签名方式
      *
@@ -226,6 +227,15 @@ public class AliPayUtil implements Callback {
      */
     private String getSignType() {
         return "sign_type=\"RSA\"";
+    }
+
+    /**
+     * sign the order info. 对订单信息进行签名
+     *
+     * @param content 待签名订单信息
+     */
+    private String sign(String content, String privateKey) {
+        return SignUtils.sign(content, privateKey);
     }
 
     /**

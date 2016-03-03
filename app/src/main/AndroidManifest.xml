@@ -5,8 +5,8 @@
     <!-- ######## 二维码扫描SDK使用的相关权限 ######## -->
     <!--<uses-permission android:name="android.permission.VIBRATE" />-->
     <uses-permission android:name="android.permission.CAMERA" />
-    <!--<uses-feature android:name="android.hardware.camera" />-->
-    <!--<uses-feature android:name="android.hardware.camera.autofocus" />-->
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
     <!-- ######## 二维码扫描SDK使用的相关权限 ######## -->
 
     <!-- AliPay SDK Permission -->

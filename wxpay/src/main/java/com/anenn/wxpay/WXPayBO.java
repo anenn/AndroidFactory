@@ -21,11 +21,11 @@ public class WXPayBO {
 
     public WXPayBO(JSONObject json) {
         if (null != json && !json.has("retcode")) {
-            appId = json.optString("appid");
-            partnerId = json.optString("partnerid");
-            prepayId = json.optString("prepayid");
-            nonceStr = json.optString("noncestr");
-            timeStamp = json.optString("timestamp");
+            appId = json.optString("appId");
+            partnerId = json.optString("partnerId");
+            prepayId = json.optString("prepayId");
+            nonceStr = json.optString("nonceStr");
+            timeStamp = json.optString("timeStamp");
             sign = json.optString("sign");
         }
     }

@@ -1,1 +1,1 @@
-include ':app', ':core', ':qrcode', ':alipay', ':video', ':share', ':wxpay', ':chart', ':residemenu', ':photopick', ':oss', ':slidingmenu'
+include ':app', ':core', ':qrcode', ':alipay', ':video', ':share', ':wxpay', ':chart', ':residemenu', ':photopick', ':oss', ':slidingmenu', ':umeng'

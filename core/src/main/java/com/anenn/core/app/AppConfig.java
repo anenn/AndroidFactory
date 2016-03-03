@@ -1,6 +1,7 @@
 package com.anenn.core.app;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.socks.library.KLog;
@@ -16,7 +17,7 @@ import java.util.Properties;
  * Storing some info of app's config.
  * Created by Anenn on 15-7-23.
  */
-public class AppConfig {
+public final class AppConfig {
     private static final String APP_CONFIG = "config";
 
     private Context mContext;
@@ -46,7 +47,7 @@ public class AppConfig {
      * @param key 关键字
      * @return 关键字对应的值
      */
-    public String getValue(String key) {
+    public String getValue(@NonNull String key) {
         Properties properties = getProperties();
         return properties != null ? properties.getProperty(key) : null;
     }
@@ -54,14 +55,12 @@ public class AppConfig {
     /**
      * Saving the properties
      *
-     * @param properties 属性对象
+     * @param pros 属性对象
      */
-    public void setValue(Properties properties) {
-        Properties pros = getProperties();
-        if (pros != null) {
-            pros.putAll(properties);
-            setProperties(pros);
-        }
+    public void setValue(@NonNull Properties pros) {
+        Properties properties = getProperties();
+        properties.putAll(pros);
+        setProperties(properties);
     }
 
     /**
@@ -71,12 +70,10 @@ public class AppConfig {
      */
     public void removeValue(String... keys) {
         Properties properties = getProperties();
-        if (properties != null) {
-            for (String key : keys) {
-                properties.remove(key);
-            }
-            setProperties(properties);
+        for (String key : keys) {
+            properties.remove(key);
         }
+        setProperties(properties);
     }
 
     /**
@@ -85,13 +82,10 @@ public class AppConfig {
      * @param key   关键字
      * @param value 关键字对应的值
      */
-    public void setKV(String key, Object value) {
+    public void setKV(@NonNull String key, @NonNull Object value) {
         Properties properties = getProperties();
-        if (properties != null && !TextUtils.isEmpty(key)
-                && value != null) {
-            properties.put(key, value);
-            setValue(properties);
-        }
+        properties.put(key, value);
+        setValue(properties);
     }
 
     /**
@@ -103,18 +97,21 @@ public class AppConfig {
         FileInputStream input = null;
         Properties properties = new Properties();
         try {
-            File dir = mContext.getDir(APP_CONFIG, Context.MODE_PRIVATE);
-            input = new FileInputStream(dir.getPath() + File.separator + APP_CONFIG);
-            properties.load(input);
+            File dirFile = mContext.getDir(APP_CONFIG, Context.MODE_PRIVATE);
+            File configFile = new File(dirFile, APP_CONFIG);
+            if (configFile.exists()) {
+                input = new FileInputStream(configFile);
+                properties.load(input);
+            }
         } catch (IOException e) {
             KLog.d(e.getMessage());
         } finally {
-            try {
-                if (input != null) {
+            if (input != null) {
+                try {
                     input.close();
+                } catch (IOException e) {
+                    KLog.d(e.getMessage());
                 }
-            } catch (IOException e) {
-                KLog.d(e.getMessage());
             }
         }
         return properties;
@@ -126,25 +123,25 @@ public class AppConfig {
      * @param properties 属性对象
      */
     public void setProperties(Properties properties) {
-        FileOutputStream out = null;
-        File dir = mContext.getDir(APP_CONFIG, Context.MODE_PRIVATE);
-        File file = new File(dir, APP_CONFIG);
+        FileOutputStream output = null;
+        File dirFile = mContext.getDir(APP_CONFIG, Context.MODE_PRIVATE);
+        File configFile = new File(dirFile, APP_CONFIG);
         try {
-            if (!file.exists()) {
-                file.createNewFile();
+            if (!configFile.exists()) {
+                configFile.createNewFile();
             }
-            out = new FileOutputStream(file);
-            properties.store(out, null);
-            out.flush();
+            output = new FileOutputStream(configFile);
+            properties.store(output, null);
+            output.flush();
         } catch (IOException e) {
             KLog.d(e.getMessage());
         } finally {
-            try {
-                if (out != null) {
-                    out.close();
+            if (output != null) {
+                try {
+                    output.close();
+                } catch (IOException e) {
+                    KLog.d(e.getMessage());
                 }
-            } catch (IOException e) {
-                KLog.d(e.getMessage());
             }
         }
     }

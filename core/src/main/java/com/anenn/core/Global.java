@@ -61,12 +61,43 @@ public class Global {
      * @return true表示当前应用在前台，反之亦然
      */
     public static boolean isAppOnBackground(Context context) {
-        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         String appPackageName = context.getPackageName();
-        List<ActivityManager.RunningTaskInfo> runningTaskInfos = am.getRunningTasks(1);
+        List<ActivityManager.RunningTaskInfo> runningTaskInfos = activityManager.getRunningTasks(1);
         if (!runningTaskInfos.isEmpty()) {
             String topAppPackageName = runningTaskInfos.get(0).topActivity.getPackageName();
             if (!appPackageName.equals(topAppPackageName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 判断应用进程是否存活
+     *
+     * @param context 应用上下文
+     * @return true 表示应用进程没被系统回收, 反之亦然
+     */
+    public static boolean isAppAlive(Context context) {
+        String packageName = context.getPackageName();
+        return isAppAlive(context, packageName);
+    }
+
+    /**
+     * 判断应用进程是否存活
+     *
+     * @param context     应用上下文
+     * @param packageName 包名
+     * @return true 表示应用进程没被回收,反之亦然
+     */
+    public static boolean isAppAlive(Context context, String packageName) {
+        ActivityManager activityManager =
+                (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> processInfos
+                = activityManager.getRunningAppProcesses();
+        for (int i = 0; i < processInfos.size(); i++) {
+            if (processInfos.get(i).processName.equals(packageName)) {
                 return true;
             }
         }
