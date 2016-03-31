@@ -29,6 +29,11 @@ public abstract class LVAdapter<T> extends BaseAdapter {
     }
 
     @Override
+    public boolean hasStableIds() {
+        return true;
+    }
+
+    @Override
     public int getCount() {
         if (mDataList != null)
             return mDataList.size();

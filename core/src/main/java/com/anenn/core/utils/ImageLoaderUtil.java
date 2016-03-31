@@ -28,7 +28,7 @@ public class ImageLoaderUtil {
     private ImageLoaderUtil() {
     }
 
-    public static void initImageLoader(Context context) {
+    public static void init(Context context) {
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
                 .threadPriority(Thread.NORM_PRIORITY - 2)
                 .denyCacheImageMultipleSizesInMemory()
@@ -108,6 +108,14 @@ public class ImageLoaderUtil {
                                  SimpleImageLoadingListener listener) {
         if (!TextUtils.isEmpty(url))
             imageLoader.displayImage(url, imageView, imageOptions, listener);
+    }
+
+    public static void resume() {
+        imageLoader.resume();
+    }
+
+    public static void pause() {
+        imageLoader.pause();
     }
 
     private static class MyImageViewAware extends ImageViewAware {

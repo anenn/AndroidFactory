@@ -17,6 +17,6 @@ public class ClientApplication extends Application {
 
         T.init(this);
         Global.init(this);
-        ImageLoaderUtil.initImageLoader(this);
+        ImageLoaderUtil.init(this);
     }
 }
