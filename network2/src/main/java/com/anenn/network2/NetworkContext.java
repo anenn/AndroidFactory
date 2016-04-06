@@ -65,7 +65,7 @@ public class NetworkContext {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                KLog.e("URL: " + tag + "\nstatusCode: " + statusCode);
+                KLog.e("URL tag: " + tag + "\nstatusCode: " + statusCode);
                 KLog.json(response.toString());
                 Result result = Result.parse(response);
                 if (result.ok()) {
@@ -78,7 +78,7 @@ public class NetworkContext {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                KLog.e("URL: " + tag + "\nstatusCode: " + statusCode + ", responseString: "
+                KLog.e("URL tag: " + tag + "\nstatusCode: " + statusCode + ", responseString: "
                         + responseString + ", throwable: " + throwable);
                 callback.onError(statusCode, responseString, data, tag);
                 mProcessing.put(tag, false);
@@ -86,7 +86,7 @@ public class NetworkContext {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                KLog.e("URL: " + tag + "\nstatusCode: " + statusCode + ", throwable: "
+                KLog.e("URL tag: " + tag + "\nstatusCode: " + statusCode + ", throwable: "
                         + throwable + ", errorResponse: " + errorResponse);
                 callback.onError(statusCode, null, data, tag);
                 mProcessing.put(tag, false);
@@ -102,6 +102,7 @@ public class NetworkContext {
     public final void get(String url, String tag, Object data, NetworkCallback callback) {
         JsonHttpResponseHandler handler = createRequestHandler(data, tag, callback);
         if (handler != null) {
+            KLog.e("Request Url: " + url);
             mHttpClient.get(mContext, url, handler);
         }
     }
@@ -113,6 +114,7 @@ public class NetworkContext {
     public final void post(String url, RequestParams params, String tag, Object data, NetworkCallback callback) {
         JsonHttpResponseHandler handler = createRequestHandler(data, tag, callback);
         if (handler != null) {
+            KLog.e("Request Url: " + url);
             mHttpClient.post(mContext, url, params, handler);
         }
     }
@@ -124,6 +126,7 @@ public class NetworkContext {
     public final void post(String url, HttpEntity entity, String contentType, String tag, Object data, NetworkCallback callback) {
         JsonHttpResponseHandler handler = createRequestHandler(data, tag, callback);
         if (handler != null) {
+            KLog.e("Request Url: " + url);
             mHttpClient.post(mContext, url, entity, contentType, handler);
         }
     }
@@ -135,6 +138,7 @@ public class NetworkContext {
     public final void put(String url, RequestParams params, String tag, Object data, NetworkCallback callback) {
         JsonHttpResponseHandler handler = createRequestHandler(data, tag, callback);
         if (handler != null) {
+            KLog.e("Request Url: " + url);
             mHttpClient.put(mContext, url, params, handler);
         }
     }
@@ -146,6 +150,7 @@ public class NetworkContext {
     public final void put(String url, HttpEntity entity, String contentType, String tag, Object data, NetworkCallback callback) {
         JsonHttpResponseHandler handler = createRequestHandler(data, tag, callback);
         if (handler != null) {
+            KLog.e("Request Url: " + url);
             mHttpClient.put(mContext, url, entity, contentType, handler);
         }
     }
@@ -157,6 +162,7 @@ public class NetworkContext {
     public final void del(String url, String tag, Object data, NetworkCallback callback) {
         JsonHttpResponseHandler handler = createRequestHandler(data, tag, callback);
         if (handler != null) {
+            KLog.e("Request Url: " + url);
             mHttpClient.delete(mContext, url, handler);
         }
     }
@@ -168,6 +174,7 @@ public class NetworkContext {
     public final void del(String url, RequestParams params, String tag, Object data, NetworkCallback callback) {
         JsonHttpResponseHandler handler = createRequestHandler(data, tag, callback);
         if (handler != null) {
+            KLog.e("Request Url: " + url);
             mHttpClient.delete(url, params, handler);
         }
     }
