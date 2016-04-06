@@ -28,28 +28,27 @@ public class ActivityManager {
     }
 
     /**
-     * Get the stack which stores activity
+     * Get the activities which stores in stack
      *
-     * @return
+     * @return Stack<Activity>
      */
     public final Stack<Activity> getActivityStack() {
         return mActivityStack;
     }
 
     /**
-     * Get current activity which the last one pushed into the stack
+     * Get current activity which  pushed into the stack at last
      *
-     * @return
+     * @return activity
      */
     public final Activity currentActivity() {
-        Activity activity = mActivityStack.lastElement();
-        return activity;
+        return mActivityStack.lastElement();
     }
 
     /**
      * Add activity into stack
      *
-     * @param activity
+     * @param activity current activity
      */
     public final void addActivity(Activity activity) {
         if (mActivityStack == null) {
@@ -62,7 +61,7 @@ public class ActivityManager {
     }
 
     /**
-     * Remove current activity which the last one pushed into the stack
+     * Remove current activity which pushed into the stack at last
      */
     public final void removeActivity() {
         Activity activity = mActivityStack.lastElement();
@@ -76,7 +75,6 @@ public class ActivityManager {
         if (activity != null) {
             if (activity.isFinishing()) {
                 mActivityStack.remove(activity);
-                activity = null;
             }
         }
     }
@@ -90,6 +88,7 @@ public class ActivityManager {
                 mActivityStack.get(i).finish();
             }
         }
+        mActivityStack.clear();
     }
 
     /**

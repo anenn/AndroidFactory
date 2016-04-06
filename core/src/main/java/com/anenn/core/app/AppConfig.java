@@ -2,7 +2,6 @@ package com.anenn.core.app;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
 import com.socks.library.KLog;
 
@@ -57,7 +56,7 @@ public final class AppConfig {
      *
      * @param pros 属性对象
      */
-    public void setValue(@NonNull Properties pros) {
+    public void setValues(@NonNull Properties pros) {
         Properties properties = getProperties();
         properties.putAll(pros);
         setProperties(properties);
@@ -68,7 +67,7 @@ public final class AppConfig {
      *
      * @param keys 可变长的关键字
      */
-    public void removeValue(String... keys) {
+    public void removeValues(String... keys) {
         Properties properties = getProperties();
         for (String key : keys) {
             properties.remove(key);
@@ -85,7 +84,7 @@ public final class AppConfig {
     public void setKV(@NonNull String key, @NonNull Object value) {
         Properties properties = getProperties();
         properties.put(key, value);
-        setValue(properties);
+        setValues(properties);
     }
 
     /**
