@@ -24,16 +24,18 @@ public class NetworkInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         final Request.Builder requestBuild = chain.request().newBuilder()
                 .addHeader("User-Agent", userAgent)
-                .addHeader("Content-Type", HttpConstants.CONTENT_TYPE);
+                .addHeader("Content-Type", HttpParams.CONTENT_TYPE)
+                .addHeader("Accept", HttpParams.CONTENT_TYPE);
         // 根据需要添加 Token, 默认不添加
-        if (!TextUtils.isEmpty(HttpConstants.TOKEN)) {
-            requestBuild.addHeader("Authorization", HttpConstants.TOKEN);
+        if (!TextUtils.isEmpty(HttpParams.TOKEN)) {
+            requestBuild.addHeader("Authorization", HttpParams.TOKEN);
         }
 
-        final Request request = requestBuild.build();
-        final Response.Builder responseBuilder = chain.proceed(request).newBuilder()
-                .header("Cache-Control", request.cacheControl().toString());
+//        final Request request = requestBuild.build();
+//        final Response.Builder responseBuilder = chain.proceed(request).newBuilder()
+//                .header("Cache-Control", request.cacheControl().toString());
+//        return responseBuilder.build();
 
-        return responseBuilder.build();
+        return chain.proceed(requestBuild.build());
     }
 }

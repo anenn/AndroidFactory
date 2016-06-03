@@ -109,7 +109,7 @@ public class PhotoPickDetailActivity extends AppCompatActivity {
                 if (((CheckBox) v).isChecked()) {
                     if (mPickImageInfo.size() >= mMaxPick) {
                         ((CheckBox) v).setChecked(false);
-                        String content = String.format("最多只能选择%d张", mMaxPick);
+                        String content = String.format(getString(R.string.photo_limit), mMaxPick);
                         T.t(content);
                         return;
                     }
@@ -205,7 +205,7 @@ public class PhotoPickDetailActivity extends AppCompatActivity {
      * 更新选中图片的数目
      */
     private void updateDataPickCount() {
-        String send = String.format("确定(%d/%d)", mPickImageInfo.size(), mMaxPick);
+        String send = String.format(getString(R.string.photo_choice_confirm), mPickImageInfo.size(), mMaxPick);
         mMenuSend.setTitle(send);
     }
 

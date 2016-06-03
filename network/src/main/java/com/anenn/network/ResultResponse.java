@@ -7,7 +7,7 @@ package com.anenn.network;
 public class ResultResponse {
 
     // 与服务器约定的请求成功的状态码
-    private static final int SUCCESS_CODE = 1000;
+    private static final int SUCCESS_CODE = 100;
 
     // 以 "payload" 为键的对象解析, 自己可以根据需要进行更改, 如服务器返回的数据格式为:
     /**

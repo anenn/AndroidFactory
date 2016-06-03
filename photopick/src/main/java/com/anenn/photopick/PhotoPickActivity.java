@@ -24,8 +24,8 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.anenn.core.common.Constants;
 import com.anenn.core.utils.T;
+import com.anenn.imageloader.GlobalDisplayImage;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
@@ -40,8 +40,8 @@ import java.util.List;
 public class PhotoPickActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>, OnClickListener {
 
-    private static final String EXTRA_MAX = "EXTRA_MAX"; //Max Data
-    private static final String EXTRA_PICKED = "EXTRA_PICKED"; // Pick Data
+    public static final String EXTRA_MAX = "EXTRA_MAX"; //Max Data
+    public static final String EXTRA_PICKED = "EXTRA_PICKED"; // Pick Data
     private static final String RESTORE_FILE_URI = "fileUri";
     private final String ALL_PHOTOS = "所有图片";
     private final int REQUEST_PICK = 20; // 图库选择回调标志位
@@ -69,9 +69,9 @@ public class PhotoPickActivity extends AppCompatActivity implements
 
     public static final DisplayImageOptions optionsImage = new DisplayImageOptions
             .Builder()
-            .showImageOnLoading(Constants.DEFAULT_PHOTO)
-            .showImageForEmptyUri(Constants.DEFAULT_PHOTO)
-            .showImageOnFail(Constants.DEFAULT_PHOTO)
+            .showImageOnLoading(GlobalDisplayImage.getImageOnLoading())
+            .showImageForEmptyUri(GlobalDisplayImage.getImageForEmptyUri())
+            .showImageOnFail(GlobalDisplayImage.getImageOnFail())
             .cacheInMemory(true)
             .cacheOnDisk(false)
             .considerExifParams(true)
@@ -156,7 +156,7 @@ public class PhotoPickActivity extends AppCompatActivity implements
     private void initValue() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("图片");
+            actionBar.setTitle(R.string.photo);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
@@ -390,10 +390,10 @@ public class PhotoPickActivity extends AppCompatActivity implements
      * 更新图片选择数目
      */
     private void updatePickCount() {
-        String format = "完成(%d/%d)";
+        String format = getString(R.string.photo_choice_confirm_amount);
         mMenuFinish.setTitle(String.format(format, mPickData.size(), mMaxPick));
 
-        String formatPreview = "预览(%d/%d)";
+        String formatPreview = getString(R.string.photo_choice_preview);
         mPreView.setText(String.format(formatPreview, mPickData.size(), mMaxPick));
     }
 
@@ -450,7 +450,7 @@ public class PhotoPickActivity extends AppCompatActivity implements
         if (((CheckBox) view).isChecked()) {
             if (mPickData.size() >= mMaxPick) {
                 ((CheckBox) view).setChecked(false);
-                String content = String.format("最多只能选择%d张", mMaxPick);
+                String content = String.format(getString(R.string.photo_limit), mMaxPick);
                 T.t(content);
                 return;
             }

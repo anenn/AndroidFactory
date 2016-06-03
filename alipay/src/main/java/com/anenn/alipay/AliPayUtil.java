@@ -24,10 +24,11 @@ import java.util.Random;
  * Created by Anenn on 2015/11/4.
  */
 public class AliPayUtil implements Callback {
-    public static final int RQF_PAY = 10; // 支付处理标志位
-    public static final int RQF_LOGIN = 11; // 检查本地是否有可用的支付宝账号
 
-    // 应用上下文
+    private static final int MSG_PAY = 10; // 支付处理标志位
+    private static final int MSG_LOGIN = 11; // 检查本地是否有可用的支付宝账号
+
+    // 当前环境
     private Activity mActivity;
     // 支付宝支付请求回调
     private IAliPayCallback mIAliPayCallback;
@@ -39,15 +40,15 @@ public class AliPayUtil implements Callback {
      *
      * @param activity 应用上下文
      */
-    public AliPayUtil(@NonNull Activity activity) {
+    public AliPayUtil(@NonNull Activity activity, IAliPayCallback iAliPayCallback) {
         mActivity = activity;
-        mIAliPayCallback = (IAliPayCallback) activity;
+        mIAliPayCallback = iAliPayCallback;
         mHandler = new WeakHandler(activity, this);
     }
 
-    public AliPayUtil(@NonNull Fragment fragment) {
+    public AliPayUtil(@NonNull Fragment fragment, IAliPayCallback iAliPayCallback) {
         mActivity = fragment.getActivity();
-        mIAliPayCallback = (IAliPayCallback) fragment;
+        mIAliPayCallback = iAliPayCallback;
         mHandler = new WeakHandler(mActivity, this);
     }
 
@@ -60,10 +61,11 @@ public class AliPayUtil implements Callback {
     @Override
     public boolean handleMessage(Message msg) {
         switch (msg.what) {
-            case AliPayUtil.RQF_PAY: {
+            case AliPayUtil.MSG_PAY: {
                 PayResult payResult = new PayResult((String) msg.obj);
 
                 // 支付宝返回此次支付结果及加签，建议对支付宝签名信息拿签约时支付宝提供的公钥做验签
+                // TODO 签名验证
                 String resultInfo = payResult.getResult();
                 String resultStatus = payResult.getResultStatus();
 
@@ -71,7 +73,7 @@ public class AliPayUtil implements Callback {
                 if (TextUtils.equals(resultStatus, "9000")) {
                     Toast.makeText(mActivity, "支付成功", Toast.LENGTH_LONG).show();
                     if (mIAliPayCallback != null) {
-                        mIAliPayCallback.paySuccess();
+                        mIAliPayCallback.aliPaySuccess();
                     }
                 } else {
                     // 判断resultStatus 为非“9000”则代表可能支付失败
@@ -79,19 +81,19 @@ public class AliPayUtil implements Callback {
                     if (TextUtils.equals(resultStatus, "8000")) {
                         Toast.makeText(mActivity, "支付结果确认中", Toast.LENGTH_SHORT).show();
                         if (mIAliPayCallback != null) {
-                            mIAliPayCallback.paying();
+                            mIAliPayCallback.aliPaying();
                         }
                     } else {
                         // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
                         Toast.makeText(mActivity, "支付失败", Toast.LENGTH_SHORT).show();
                         if (mIAliPayCallback != null) {
-                            mIAliPayCallback.payFailed();
+                            mIAliPayCallback.aliPayFailed();
                         }
                     }
                 }
                 break;
             }
-            case AliPayUtil.RQF_LOGIN: {
+            case AliPayUtil.MSG_LOGIN: {
                 Toast.makeText(mActivity, "检查结果为：" + msg.obj, Toast.LENGTH_SHORT).show();
                 break;
             }
@@ -102,11 +104,13 @@ public class AliPayUtil implements Callback {
     }
 
     /**
-     * 处理订单支付
+     * 处理订单支付, 建议将签名加密放在服务端执行
      *
      * @param aliPayBO 支付信息
      * @param orderBO  订单信息
+     * @deprecated Use {@link #pay(String)} instead
      */
+    @Deprecated
     public void pay(AliPayBO aliPayBO, OrderBO orderBO) {
         // 创建订单信息
         String orderInfo = createOrderInfo(orderBO, aliPayBO);
@@ -121,7 +125,6 @@ public class AliPayUtil implements Callback {
         // 完整的符合支付宝参数规范的订单信息
         final String payInfo = orderInfo + "&sign=\"" + sign + "\"&" + getSignType();
 
-        // 启动支付
         pay(payInfo);
     }
 
@@ -137,16 +140,13 @@ public class AliPayUtil implements Callback {
             public void run() {
                 // 构造 PayTask 对象
                 PayTask aliPay = new PayTask(mActivity);
-
-                // 设置为沙箱模式，不设置默认为线上环境
-                // aliPay.setSandBox(true);
-
                 // 调用支付接口，获取支付结果
                 String result = aliPay.pay(payInfo);
                 Message msg = mHandler.obtainMessage();
-                msg.what = RQF_PAY;
+                msg.what = MSG_PAY;
                 msg.obj = result;
-                mHandler.sendMessage(msg);
+                if (mHandler != null)
+                    mHandler.sendMessage(msg);
             }
         };
 
@@ -252,9 +252,10 @@ public class AliPayUtil implements Callback {
                 boolean isExist = payTask.checkAccountIfExist();
 
                 Message msg = mHandler.obtainMessage();
-                msg.what = AliPayUtil.RQF_LOGIN;
+                msg.what = AliPayUtil.MSG_LOGIN;
                 msg.obj = isExist;
-                mHandler.sendMessage(msg);
+                if (mHandler != null)
+                    mHandler.sendMessage(msg);
             }
         };
 
@@ -266,7 +267,7 @@ public class AliPayUtil implements Callback {
      * get the out_trade_no for an order.
      * 生成商户订单号，该值在商户端应保持唯一（可自定义格式规范）
      */
-    public static String getOrderNumber() {
+    public String getOrderNumber() {
         SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss", Locale.getDefault());
         Date date = new Date();
         String key = format.format(date);
@@ -282,8 +283,8 @@ public class AliPayUtil implements Callback {
      */
     public void onDestroy() {
         if (mHandler != null) {
-            mHandler.removeMessages(AliPayUtil.RQF_PAY);
-            mHandler.removeMessages(AliPayUtil.RQF_LOGIN);
+            mHandler.removeMessages(AliPayUtil.MSG_PAY);
+            mHandler.removeMessages(AliPayUtil.MSG_LOGIN);
             mHandler = null;
         }
     }
@@ -293,13 +294,13 @@ public class AliPayUtil implements Callback {
      */
     public interface IAliPayCallback {
         // 正在支付
-        void paying();
+        void aliPaying();
 
         // 支付成功
-        void paySuccess();
+        void aliPaySuccess();
 
         // 支付失败
-        void payFailed();
+        void aliPayFailed();
     }
 
     /**
@@ -317,8 +318,9 @@ public class AliPayUtil implements Callback {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+
             Activity activity = reference.get();
-            if (activity != null) {
+            if (activity != null && callback != null) {
                 callback.handleMessage(msg);
             }
         }

@@ -16,4 +16,8 @@ public class ResultException extends RuntimeException {
     public int getErrorCode() {
         return errorCode;
     }
+
+    public String getErrorMsg() {
+        return getMessage();
+    }
 }

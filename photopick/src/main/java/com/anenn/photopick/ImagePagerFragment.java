@@ -1,9 +1,5 @@
 package com.anenn.photopick;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -14,12 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.anenn.core.common.Constants;
-import com.anenn.core.utils.T;
+import com.anenn.imageloader.GlobalDisplayImage;
 import com.github.lzyzsd.circleprogress.DonutProgress;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.FileAsyncHttpResponseHandler;
-import com.loopj.android.http.PersistentCookieStore;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -53,12 +45,13 @@ public class ImagePagerFragment extends Fragment implements View.OnClickListener
     // 图片Uri
     private String mPhotoUri;
     // 异步请求对象
-    private AsyncHttpClient mAsyncHttpClient;
+//    private AsyncHttpClient mAsyncHttpClient;
 
     private static final DisplayImageOptions optionsImage = new DisplayImageOptions
             .Builder()
-            .showImageForEmptyUri(Constants.DEFAULT_PHOTO)
-            .showImageOnFail(Constants.DEFAULT_PHOTO)
+            .showImageOnLoading(GlobalDisplayImage.getImageOnLoading())
+            .showImageForEmptyUri(GlobalDisplayImage.getImageForEmptyUri())
+            .showImageOnFail(GlobalDisplayImage.getImageOnFail())
             .bitmapConfig(Bitmap.Config.RGB_565)
             .cacheOnDisk(true)
             .resetViewBeforeLoading(true)
@@ -180,48 +173,48 @@ public class ImagePagerFragment extends Fragment implements View.OnClickListener
                             photoView.setOnViewTapListener(onViewTapListener);
                         }
 
-                        image.setOnLongClickListener(new View.OnLongClickListener() {
-                            @Override
-                            public boolean onLongClick(View v) {
-                                new AlertDialog.Builder(getActivity())
-                                        .setItems(new String[]{"保存到手机"}, new OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                if (which == 0) {
-                                                    if (mAsyncHttpClient == null) {
-                                                        mAsyncHttpClient = new AsyncHttpClient();
-                                                        PersistentCookieStore cookieStore = new PersistentCookieStore(getActivity());
-                                                        mAsyncHttpClient.setCookieStore(cookieStore);
-                                                        mAsyncHttpClient.addHeader("user-agent", "android");
-                                                        mPhotoFile = FileUtil.getDestinationInExternalPublicDir(FileUtil.getFileDownloadPath(getActivity()), mPhotoUri.replaceAll(".*/(.*?)", "$1"));
-                                                        mAsyncHttpClient.get(getActivity(), imageUri, new FileAsyncHttpResponseHandler(mPhotoFile) {
-                                                            @Override
-                                                            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, File file) {
-                                                                if (!isResumed()) {
-                                                                    return;
-                                                                }
-                                                                mAsyncHttpClient = null;
-                                                                T.t("保存失败");
-                                                            }
-
-                                                            @Override
-                                                            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, File file) {
-                                                                if (!isResumed()) {
-                                                                    return;
-                                                                }
-                                                                mAsyncHttpClient = null;
-                                                                T.t("图片已保存到:" + file.getPath());
-                                                                getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));/**/
-                                                            }
-                                                        });
-                                                    }
-                                                }
-                                            }
-                                        })
-                                        .show();
-                                return true;
-                            }
-                        });
+//                        image.setOnLongClickListener(new View.OnLongClickListener() {
+//                            @Override
+//                            public boolean onLongClick(View v) {
+//                                new AlertDialog.Builder(getActivity())
+//                                        .setItems(new String[]{getString(R.string.photo_save_tip)}, new OnClickListener() {
+//                                            @Override
+//                                            public void onClick(DialogInterface dialog, int which) {
+//                                                if (which == 0) {
+//                                                    if (mAsyncHttpClient == null) {
+//                                                        mAsyncHttpClient = new AsyncHttpClient();
+//                                                        PersistentCookieStore cookieStore = new PersistentCookieStore(getActivity());
+//                                                        mAsyncHttpClient.setCookieStore(cookieStore);
+//                                                        mAsyncHttpClient.addHeader("user-agent", "android");
+//                                                        mPhotoFile = FileUtil.getDestinationInExternalPublicDir(FileUtil.getFileDownloadPath(getActivity()), mPhotoUri.replaceAll(".*/(.*?)", "$1"));
+//                                                        mAsyncHttpClient.get(getActivity(), imageUri, new FileAsyncHttpResponseHandler(mPhotoFile) {
+//                                                            @Override
+//                                                            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, File file) {
+//                                                                if (!isResumed()) {
+//                                                                    return;
+//                                                                }
+//                                                                mAsyncHttpClient = null;
+//                                                                T.t(getString(R.string.photo_save_success));
+//                                                            }
+//
+//                                                            @Override
+//                                                            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, File file) {
+//                                                                if (!isResumed()) {
+//                                                                    return;
+//                                                                }
+//                                                                mAsyncHttpClient = null;
+//                                                                T.t(getString(R.string.photo_save_path) + file.getPath());
+//                                                                getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));/**/
+//                                                            }
+//                                                        });
+//                                                    }
+//                                                }
+//                                            }
+//                                        })
+//                                        .show();
+//                                return true;
+//                            }
+//                        });
 
                         if (image instanceof GifImageView) {
                             Uri uri = Uri.fromFile(file);
@@ -261,10 +254,10 @@ public class ImagePagerFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onDestroy() {
-        if (mAsyncHttpClient != null) {
-            mAsyncHttpClient.cancelRequests(getActivity(), true);
-            mAsyncHttpClient = null;
-        }
+//        if (mAsyncHttpClient != null) {
+//            mAsyncHttpClient.cancelRequests(getActivity(), true);
+//            mAsyncHttpClient = null;
+//        }
         super.onDestroy();
     }
 }

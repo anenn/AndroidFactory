@@ -10,7 +10,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.anenn.core.manager.NetworkManager;
-import com.socks.library.KLog;
+import com.anenn.core.utils.L;
 
 import static android.net.ConnectivityManager.CONNECTIVITY_ACTION;
 
@@ -23,7 +23,9 @@ public class NetworkStateService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        KLog.i("NetworkStateService onCreate");
+
+        L.i("NetworkStateService onCreate");
+
         IntentFilter filter = new IntentFilter();
         filter.addAction(CONNECTIVITY_ACTION);
         registerReceiver(networkStateReceiver, filter);
@@ -31,44 +33,52 @@ public class NetworkStateService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        KLog.i("NetworkStateService onStartCommand");
+        L.i("NetworkStateService onStartCommand");
+
         return super.onStartCommand(intent, flags, startId);
     }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        KLog.i("NetworkStateService onBind");
+        L.i("NetworkStateService onBind");
+
         return null;
     }
 
     @Override
     public boolean onUnbind(Intent intent) {
-        KLog.i("NetworkStateService onUnbind");
+        L.i("NetworkStateService onUnbind");
+
         return super.onUnbind(intent);
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-        KLog.i("NetworkStateService onDestroy");
+        L.i("NetworkStateService onDestroy");
+
         if (networkStateReceiver != null) {
             unregisterReceiver(networkStateReceiver);
         }
+
+        super.onDestroy();
     }
 
     // 网络状态广播接收者
     private BroadcastReceiver networkStateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals(CONNECTIVITY_ACTION)) {
-                KLog.i("网络状态已改变");
-                String name = NetworkManager.getConnectedTypeName(context);
-                if (!TextUtils.isEmpty(name)) {
-                    KLog.i("当前网络名称: " + name);
-                } else {
-                    KLog.i("没有可用的网络");
+            if (intent != null) {
+                String action = intent.getAction();
+                if (CONNECTIVITY_ACTION.equals(action)) {
+                    L.i("Network connectivity have been changed");
+
+                    String name = NetworkManager.getConnectedTypeName(context);
+                    if (!TextUtils.isEmpty(name)) {
+                        L.i("The current network name : " + name);
+                    } else {
+                        L.i("No found a useful network");
+                    }
                 }
             }
         }

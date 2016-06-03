@@ -1,9 +1,21 @@
 <resources>
-    <string name="app_name">PhotoPick</string>
-    <string name="tv_camera">相机</string>
-    <string name="menu_finish">完成</string>
-    <string name="tv_choice">选择</string>
-    <string name="tv_del">删除</string>
-    <string name="tv_review">预览</string>
-    <string name="tv_send">发送</string>
+    <string name="tv_camera">Camera</string>
+    <string name="menu_finish">Done</string>
+    <string name="tv_choice">Choice</string>
+    <string name="tv_del">Delete</string>
+    <string name="tv_review">Preview</string>
+    <string name="tv_send">Send</string>
+    <string name="photo_limit">You can only choose %%%%d photos</string>
+    <string name="photo_choice_tip">Photo Choice</string>
+    <string name="photo_crop_failure">Your phone doesn\'t support the function of photo crop.</string>
+    <string name="photo">Photo</string>
+    <string name="confirm">Sure</string>
+    <string name="photo_delete_tip">Want to delete?</string>
+    <string name="cancel">Cancel</string>
+    <string name="photo_save_success">Save success</string>
+    <string name="photo_save_path">The photo have been saved into the path of </string>
+    <string name="photo_choice_confirm">Confirm(%%d/%%d)</string>
+    <string name="photo_choice_confirm_amount">Done(%%d/%%d)</string>
+    <string name="photo_choice_preview">Preview(%%d/%%d)</string>
+    <string name="photo_save_tip">Save the photo</string>
 </resources>

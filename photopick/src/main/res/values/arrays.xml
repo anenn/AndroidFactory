@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="camera_gallery">
-        <item>相机</item>
-        <item>相册</item>
+        <item>Camera</item>
+        <item>Photos</item>
     </string-array>
 </resources>

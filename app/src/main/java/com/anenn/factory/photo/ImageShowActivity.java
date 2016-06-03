@@ -58,7 +58,7 @@ public class ImageShowActivity extends AppCompatActivity {
     }
 
     public void toChoice(View view) {
-        photoManager.camera();
+//        photoManager.camera();
     }
 
     @Override

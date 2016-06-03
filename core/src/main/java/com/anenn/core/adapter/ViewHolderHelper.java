@@ -10,7 +10,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.anenn.core.utils.ImageLoaderUtil;
+import com.anenn.imageloader.ImageLoaderUtil;
 
 /**
  * Created by Anenn on 15-7-23.

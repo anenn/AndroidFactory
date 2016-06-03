@@ -33,7 +33,7 @@ public class FileUtil {
     public final static int FILE_DEL_ALL = 1;
     public final static int FILE_IGNORE_DIR = 2;
 
-    private final static String DOWNLOAD_FOLDER = "Youdar";
+    private final static String DOWNLOAD_FOLDER = "Anenn";
     private final static String DOWNLOAD_PATH = "download_path";
     private final static String DOWNLOAD_SETTING = "download_setting";
 

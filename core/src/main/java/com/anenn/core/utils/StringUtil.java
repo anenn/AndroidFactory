@@ -10,9 +10,9 @@ public class StringUtil {
     /**
      * 字符串转整数
      *
-     * @param str
-     * @param defValue
-     * @return
+     * @param str      待转换的字符串
+     * @param defValue 默认整数
+     * @return 转换后的整数
      */
     public static int str2Int(String str, int defValue) {
         try {
@@ -28,7 +28,7 @@ public class StringUtil {
     /**
      * 对象转整数
      *
-     * @param obj
+     * @param obj 待转换的对象
      * @return 转换异常返回 0
      */
     public static int obj2Int(Object obj) {
@@ -40,9 +40,9 @@ public class StringUtil {
     /**
      * 字符串转长整数
      *
-     * @param obj
-     * @param defValue
-     * @return
+     * @param obj      待转换的字符串
+     * @param defValue 默认长整数
+     * @return 转换后的长整数
      */
     public static long str2Long(String obj, Long defValue) {
         try {
@@ -58,8 +58,8 @@ public class StringUtil {
     /**
      * 对象转长整数
      *
-     * @param obj
-     * @return
+     * @param obj 待转换的对象
+     * @return 转换异常返回0L
      */
     public static long obj2Long(Object obj) {
         if (obj == null)
@@ -70,9 +70,9 @@ public class StringUtil {
     /**
      * 字符串转布尔值
      *
-     * @param obj
-     * @param defValue
-     * @return
+     * @param obj      待转换的字符串
+     * @param defValue 默认布尔值
+     * @return 转换后布尔值
      */
     public static boolean str2Bool(String obj, Boolean defValue) {
         try {
@@ -88,8 +88,8 @@ public class StringUtil {
     /**
      * 对象转布尔值
      *
-     * @param obj
-     * @return
+     * @param obj 待转换的对象
+     * @return 转换异常返回false
      */
     public static boolean obj2Bool(Object obj) {
         if (obj == null)

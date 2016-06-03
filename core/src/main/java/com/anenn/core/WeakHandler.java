@@ -11,24 +11,25 @@ import java.lang.ref.WeakReference;
  * Created by Anenn on 15-7-23.
  */
 public class WeakHandler extends Handler {
-    private WeakReference<Activity> reference = null;
+    private WeakReference<Activity> reference;
     private Callback callback;
 
-    public WeakHandler(Activity activity) {
+    public WeakHandler(Activity activity, Callback callback) {
         reference = new WeakReference<>(activity);
-        this.callback = (Callback) activity;
+        this.callback = callback;
     }
 
-    public WeakHandler(Fragment fragment) {
+    public WeakHandler(Fragment fragment, Callback callback) {
         reference = new WeakReference<Activity>(fragment.getActivity());
-        this.callback = (Callback) fragment;
+        this.callback = callback;
     }
 
     @Override
     public void handleMessage(Message msg) {
         super.handleMessage(msg);
+
         Activity activity = reference.get();
-        if (activity != null) {
+        if (activity != null && callback != null) {
             callback.handleMessage(msg);
         }
     }

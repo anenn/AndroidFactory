@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tv_camera">相机</string>
+    <string name="menu_finish">完成</string>
+    <string name="tv_choice">选择</string>
+    <string name="tv_del">删除</string>
+    <string name="tv_review">预览</string>
+    <string name="tv_send">发送</string>
+    <string name="photo_limit">最多只能添加%%d张图片</string>
+    <string name="photo_choice_tip">选择图片</string>
+    <string name="photo_crop_failure">当前手机不支持图片裁剪功能</string>
+    <string name="photo">图片</string>
+    <string name="confirm">确定</string>
+    <string name="photo_delete_tip">确定删除？</string>
+    <string name="cancel">取消</string>
+    <string name="photo_save_success">保存失败</string>
+    <string name="photo_save_path">图片已保存到:</string>
+    <string name="photo_choice_confirm">确定(%%d/%%d)</string>
+    <string name="photo_choice_confirm_amount">完成(%%d/%%d)</string>
+    <string name="photo_choice_preview">预览(%%d/%%d)</string>
+    <string name="photo_save_tip">保存到手机</string>
+</resources>

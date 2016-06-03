@@ -2,6 +2,7 @@ package com.anenn.core.utils;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 /**
@@ -11,14 +12,33 @@ public class T {
     private static Toast toast;
 
     public static void init(Context context) {
-        toast = Toast.makeText(context, "", Toast.LENGTH_SHORT);
+        toast = Toast.makeText(context, "", Toast.LENGTH_LONG);
+    }
+
+    public static void showLong(@NonNull CharSequence message) {
+        t(message);
+        t(message);
+    }
+
+    public static void t(@NonNull CharSequence message) {
+        if (toast == null) {
+            throw new IllegalStateException("Toast is not initialized");
+        }
+
+        if (!TextUtils.isEmpty(message)) {
+            toast.setText(message);
+            toast.show();
+        }
     }
 
     public static void t(@NonNull String message) {
         if (toast == null) {
             throw new IllegalStateException("Toast is not initialized");
         }
-        toast.setText(message);
-        toast.show();
+
+        if (!TextUtils.isEmpty(message)) {
+            toast.setText(message);
+            toast.show();
+        }
     }
 }

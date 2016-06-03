@@ -177,9 +177,9 @@ public class ImagePagerActivity extends AppCompatActivity {
         if (itemId == R.id.menu_photo_del) {
             final int selectPos = viewPager.getCurrentItem();
             AlertDialog dialog = new AlertDialog.Builder(this)
-                    .setTitle("图片")
-                    .setMessage("确定删除？")
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    .setTitle(R.string.photo)
+                    .setMessage(R.string.photo_delete_tip)
+                    .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String s = mShowUris.remove(selectPos);
@@ -192,7 +192,7 @@ public class ImagePagerActivity extends AppCompatActivity {
                             }
                         }
                     })
-                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                         }

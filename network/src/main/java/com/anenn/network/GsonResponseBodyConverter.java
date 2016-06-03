@@ -32,7 +32,7 @@ public class GsonResponseBodyConverter<T> implements Converter<ResponseBody, T> 
         // 从 ResponseBody 对象中取出服务器响应的 JSON 数据
         BufferedReader reader = new BufferedReader(new InputStreamReader(responseBody.byteStream()));
         StringBuilder sb = new StringBuilder();
-        String line ;
+        String line;
         while ((line = reader.readLine()) != null) {
             sb.append(line);
         }

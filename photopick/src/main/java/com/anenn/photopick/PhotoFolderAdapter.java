@@ -76,7 +76,7 @@ public class PhotoFolderAdapter extends BaseAdapter {
         int count = data.getCount();
 
         holder.foldName.setText(data.getName());
-        holder.photoCount.setText(String.format("%d张", count));
+        holder.photoCount.setText(String.format("%d", count));
 
         ImageLoader.getInstance().displayImage(ImageInfo.pathAddPreFix(uri), holder.foldIcon,
                 PhotoPickActivity.optionsImage);

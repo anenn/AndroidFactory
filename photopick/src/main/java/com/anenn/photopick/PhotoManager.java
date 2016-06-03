@@ -28,12 +28,12 @@ import static com.anenn.photopick.ImagePagerActivity.SHOW_URIS;
  * 图片管理器
  * Created by Anenn on 2015/7/29
  */
-public abstract class PhotoManager {
+public class PhotoManager {
     public int MAX_LIMIT = 6; // 最多允许上传图片数量
-    private final int REQUEST_MULTI_PHOTO = 1000; // 多张图片选择回调标志位
-    private final int REQUEST_SINGLE_PHOTO = 1001; // 单张图片选择回调标志位
-    private final int REQUEST_PHOTO_CROP = 1002; // 图片裁剪回调标志位
-    private final int REQUEST_VIEW_IMAGE = 1003; // 查看图片原图回调标志位
+    private final int REQUEST_MULTI_PHOTO = 0x1000; // 多张图片选择回调标志位
+    private final int REQUEST_SINGLE_PHOTO = 0x1001; // 单张图片选择回调标志位
+    private final int REQUEST_PHOTO_CROP = 0x1002; // 图片裁剪回调标志位
+    private final int REQUEST_VIEW_IMAGE = 0x1003; // 查看图片原图回调标志位
 
     private Activity mActivity;
     private Fragment mFragment;
@@ -43,9 +43,8 @@ public abstract class PhotoManager {
     private Uri fileUri;
     // 裁剪后的图片的Uri
     private Uri fileCropUri;
-    // 输出图片的宽
+    // 输出图片的宽高
     private int outputX = 640;
-    // 输出图片的高
     private int outputY = 640;
     // 图片的缩放比例
     private int aspectX = 1;
@@ -67,95 +66,95 @@ public abstract class PhotoManager {
         this.mFragment = fragment;
     }
 
-//    /**
-//     * 设置图片最多选择的数目
-//     *
-//     * @param limit 图片的最多数目
-//     */
-//    private void setMaxLimit(int limit) {
-//        MAX_LIMIT = limit;
-//    }
-//
-//    /**
-//     * 设置图片裁剪的宽、高
-//     *
-//     * @param x 宽
-//     * @param y 高
-//     */
-//    private void setCropXY(int x, int y) {
-//        isNeedCrop = true;
-//        isCropLimit = true;
-//        isAspect = false;
-//        outputX = x;
-//        outputY = y;
-//    }
-//
-//    /**
-//     * 设置图片的宽、高缩放比例
-//     *
-//     * @param x 轴
-//     * @param y 轴
-//     */
-//    private void setAspectXY(int x, int y) {
-//        isNeedCrop = true;
-//        isCropLimit = true;
-//        isAspect = true;
-//        aspectX = x;
-//        aspectY = y;
-//    }
+    /**
+     * 设置图片最多选择的数目
+     *
+     * @param limit 图片的最多数目
+     */
+    public final void setMaxLimit(int limit) {
+        MAX_LIMIT = limit;
+    }
 
-//    /**
-//     * 设置是否可对图片进行裁剪
-//     *
-//     * @param isNeedCrop true 表示对图片进行裁剪，反之亦然
-//     */
-//    private void setNeedCrop(boolean isNeedCrop) {
-//        this.isNeedCrop = isNeedCrop;
-//    }
+    /**
+     * 设置图片裁剪时的宽、高
+     *
+     * @param x 宽
+     * @param y 高
+     */
+    public final void setCropXY(int x, int y) {
+        isNeedCrop = true;
+        isCropLimit = true;
+        isAspect = false;
+        outputX = x;
+        outputY = y;
+    }
 
-//    /**
-//     * 是否限制图片的裁剪功能
-//     *
-//     * @param cropLimit true 表示根据缩放比例和宽高对图片进行裁剪，false 表示不做任何限制
-//     */
-//    private void setCropLimit(boolean cropLimit) {
-//        isCropLimit = cropLimit;
-//        if (cropLimit)
-//            isNeedCrop = true;
-//    }
+    /**
+     * 设置图片的宽、高缩放比例
+     *
+     * @param x 轴
+     * @param y 轴
+     */
+    public final void setAspectXY(int x, int y) {
+        isNeedCrop = true;
+        isCropLimit = true;
+        isAspect = true;
+        aspectX = x;
+        aspectY = y;
+    }
 
-//    /**
-//     * 弹出图片选择窗口，针对多张图片选择
-//     *
-//     * @param imageInfoList 已选择的图片数据集
-//     */
-//    private final void showMultiDialog(ArrayList<ImageInfo> imageInfoList) {
-//        if (imageInfoList == null) {
-//            imageInfoList = new ArrayList<>();
-//        }
-//
-//        int other = MAX_LIMIT - imageInfoList.size();
-//        if (other <= 0) {
-//            T.t(String.format("最多只能添加%d张图片", MAX_LIMIT));
-//            return;
-//        }
-//
-//        Intent intent = new Intent(mContext, PhotoPickActivity.class);
-//        intent.putExtra(PhotoPickActivity.EXTRA_MAX, MAX_LIMIT);
-//        intent.putParcelableArrayListExtra(PhotoPickActivity.EXTRA_PICKED, imageInfoList);
-//        if (mFragment != null) {
-//            mFragment.startActivityForResult(intent, REQUEST_MULTI_PHOTO);
-//        } else if (mActivity != null) {
-//            mActivity.startActivityForResult(intent, REQUEST_MULTI_PHOTO);
-//        }
-//    }
+    /**
+     * 设置是否可对图片进行裁剪
+     *
+     * @param isNeedCrop true 表示对图片进行裁剪，反之亦然
+     */
+    public final void setNeedCrop(boolean isNeedCrop) {
+        this.isNeedCrop = isNeedCrop;
+    }
+
+    /**
+     * 是否限制图片的裁剪功能
+     *
+     * @param cropLimit true 表示根据缩放比例和宽高对图片进行裁剪，false 表示不做任何限制
+     */
+    public final void setCropLimit(boolean cropLimit) {
+        isCropLimit = cropLimit;
+        if (isCropLimit)
+            isNeedCrop = true;
+    }
+
+    /**
+     * 弹出图片选择窗口，针对多张图片选择
+     *
+     * @param imageInfoList 已选择的图片数据集
+     */
+    public final void showMultiDialog(ArrayList<ImageInfo> imageInfoList) {
+        if (imageInfoList == null) {
+            imageInfoList = new ArrayList<>();
+        }
+
+        int other = MAX_LIMIT - imageInfoList.size();
+        if (other <= 0) {
+            T.t(String.format(mContext.getString(R.string.photo_limit), MAX_LIMIT));
+            return;
+        }
+
+        Intent intent = new Intent(mContext, PhotoPickActivity.class);
+        intent.putExtra(PhotoPickActivity.EXTRA_MAX, MAX_LIMIT);
+        intent.putParcelableArrayListExtra(PhotoPickActivity.EXTRA_PICKED, imageInfoList);
+        if (mFragment != null) {
+            mFragment.startActivityForResult(intent, REQUEST_MULTI_PHOTO);
+        } else if (mActivity != null) {
+            mActivity.startActivityForResult(intent, REQUEST_MULTI_PHOTO);
+        }
+    }
 
     /**
      * 弹出选择图片窗口，针对单张图片选择
      */
     public final void showSingleDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setTitle("选择图片")
+        builder.setTitle(mContext.getString(R.string.photo_choice_tip))
                 .setItems(R.array.camera_gallery,
                         new DialogInterface.OnClickListener() {
                             @Override
@@ -175,7 +174,7 @@ public abstract class PhotoManager {
     /**
      * 调用系统相册
      */
-    private final void gallery() {
+    private void gallery() {
         Intent intent = new Intent(Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         if (mFragment != null) {
@@ -188,7 +187,7 @@ public abstract class PhotoManager {
     /**
      * 调用照相机
      */
-    public final void camera() {
+    private void camera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         fileUri = CameraPhotoUtil.getOutputMediaFileUri();
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
@@ -245,8 +244,10 @@ public abstract class PhotoManager {
                     cropImageUri(fileUri, fileCropUri, REQUEST_PHOTO_CROP);
                 }
             } else if (requestCode == REQUEST_PHOTO_CROP) {
-                String filePath = CameraPhotoUtil.getPath(mContext, fileCropUri);
-                obtainSinglePhoto(filePath);
+                fileUri = fileCropUri;
+                // String filePath = CameraPhotoUtil.getPath(mContext, fileCropUri);
+                // obtainSinglePhoto(filePath);
+                dealFilePath();
             } else if (requestCode == REQUEST_VIEW_IMAGE) {
                 if (data != null) {
                     ArrayList<String> delUris = data.getStringArrayListExtra(DEL_URIS);
@@ -301,7 +302,7 @@ public abstract class PhotoManager {
                 mActivity.startActivityForResult(intent, requestCode);
             }
         } catch (ActivityNotFoundException e) {
-            T.t("当前手机不支持图片裁剪功能");
+            T.t(mContext.getString(R.string.photo_crop_failure));
             dealFilePath();
         }
     }
@@ -309,9 +310,11 @@ public abstract class PhotoManager {
     public void obtainMultiPhoto(List<String> imageInfoList) {
     }
 
-    public abstract void obtainSinglePhoto(String path);
+    public void obtainSinglePhoto(String path) {
+    }
 
-    public abstract void viewImagesCallback(List<String> uriList);
+    public void viewImagesCallback(List<String> uriList) {
+    }
 
     /**
      * 释放资源

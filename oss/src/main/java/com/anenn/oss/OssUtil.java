@@ -31,10 +31,11 @@ import java.util.UUID;
  * Created by Anenn on 2016/1/3.
  */
 public class OssUtil {
+
     // 阿里云存储服务对象
     private OSS oss;
     // 文件上传回调接口对象
-    private IFileUploadCallback fileUploadCallback;
+    private IFileUploadCallback iFileUploadCallback;
     // 文件上传任务对象
     private OSSAsyncTask ossAsyncTask;
     // 消息处理对象
@@ -49,13 +50,13 @@ public class OssUtil {
     }
 
     public OssUtil(Activity activity, Handler handler) {
-        fileUploadCallback = (IFileUploadCallback) activity;
+        iFileUploadCallback = (IFileUploadCallback) activity;
         this.handler = handler;
         mContext = activity;
     }
 
     public OssUtil(Fragment fragment, Handler handler) {
-        fileUploadCallback = (IFileUploadCallback) fragment;
+        iFileUploadCallback = (IFileUploadCallback) fragment;
         this.handler = handler;
         mContext = fragment.getActivity();
     }
@@ -107,11 +108,11 @@ public class OssUtil {
         putObjectRequest.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
             @Override
             public void onProgress(PutObjectRequest request, final long currentSize, final long totalSize) {
-                if (fileUploadCallback != null && isShowUploadState) {
+                if (iFileUploadCallback != null && isShowUploadState) {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            fileUploadCallback.fileUploadProgress(currentSize, totalSize);
+                            iFileUploadCallback.fileUploadProgress(currentSize, totalSize);
                         }
                     });
                 }
@@ -122,11 +123,11 @@ public class OssUtil {
             @Override
             public void onSuccess(final PutObjectRequest putObjectRequest, final PutObjectResult putObjectResult) {
                 if (putObjectResult != null) {
-                    if (fileUploadCallback != null) {
+                    if (iFileUploadCallback != null) {
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                fileUploadCallback.fileUploadSuccess(putObjectResult.getETag(), putObjectRequest.getObjectKey());
+                                iFileUploadCallback.fileUploadSuccess(putObjectResult.getETag(), putObjectRequest.getObjectKey());
                             }
                         });
                     }
@@ -141,11 +142,11 @@ public class OssUtil {
                 }
                 // 服务异常
                 if (serviceException != null) {
-                    if (fileUploadCallback != null) {
+                    if (iFileUploadCallback != null) {
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                fileUploadCallback.fileUploadFailure(serviceException.getErrorCode(),
+                                iFileUploadCallback.fileUploadFailure(serviceException.getErrorCode(),
                                         request.getObjectKey(),
                                         serviceException.getHostId(),
                                         serviceException.getRawMessage());
@@ -169,7 +170,7 @@ public class OssUtil {
     /**
      * 结束任务
      */
-    public void cancleTask() {
+    public void cancelTask() {
         if (ossAsyncTask != null) {
             ossAsyncTask.cancel();
         }

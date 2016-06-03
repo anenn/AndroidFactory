@@ -3,7 +3,7 @@ package com.anenn.core.app;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.socks.library.KLog;
+import com.anenn.core.utils.L;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -103,13 +103,13 @@ public final class AppConfig {
                 properties.load(input);
             }
         } catch (IOException e) {
-            KLog.d(e.getMessage());
+            L.e(e.getMessage());
         } finally {
             if (input != null) {
                 try {
                     input.close();
                 } catch (IOException e) {
-                    KLog.d(e.getMessage());
+                    L.e(e.getMessage());
                 }
             }
         }
@@ -133,13 +133,13 @@ public final class AppConfig {
             properties.store(output, null);
             output.flush();
         } catch (IOException e) {
-            KLog.d(e.getMessage());
+            L.e(e.getMessage());
         } finally {
             if (output != null) {
                 try {
                     output.close();
                 } catch (IOException e) {
-                    KLog.d(e.getMessage());
+                    L.e(e.getMessage());
                 }
             }
         }

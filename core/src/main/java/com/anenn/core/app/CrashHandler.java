@@ -6,8 +6,8 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Environment;
 import android.os.Looper;
 
+import com.anenn.core.utils.L;
 import com.anenn.core.utils.T;
-import com.socks.library.KLog;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -70,7 +70,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             return false;
 
         final String crashReport = getCrashReport(mContext, ex);
-        KLog.e("HandleException" + crashReport);
+        L.e("HandleException" + crashReport);
 
         new Thread() {
             @Override
