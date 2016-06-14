@@ -16,6 +16,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 /**
+ * 图片下载器
  * Created by Anenn on 16-1-20.
  */
 public class MyImageDownloader extends BaseImageDownloader {

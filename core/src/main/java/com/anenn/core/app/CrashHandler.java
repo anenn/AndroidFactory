@@ -76,7 +76,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             @Override
             public void run() {
                 Looper.prepare();
-                T.t("Sorry...程序出现异常, 攻城狮们会尽快解决问题!");
+                T.show("Sorry...程序出现异常, 攻城狮们会尽快解决问题!");
                 Looper.loop();
             }
         }.start();

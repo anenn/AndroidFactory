@@ -7,12 +7,5 @@
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        />
-
-    <ImageView
-        android:id="@+id/ivPhone"
-        android:layout_width="80dp"
-        android:layout_height="80dp" />
+        android:layout_height="match_parent" />
 </LinearLayout>

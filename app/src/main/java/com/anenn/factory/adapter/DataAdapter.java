@@ -10,10 +10,6 @@ import com.anenn.factory.R;
 import java.util.List;
 
 /**
- * Copyright Youdar, Inc - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * <p>
  * Created by anenn <anennzxq@gmail.com> on 5/4/16.
  */
 public class DataAdapter extends LVAdapter<String> {
@@ -29,7 +25,6 @@ public class DataAdapter extends LVAdapter<String> {
 
     @Override
     protected void initItemViewData(LVViewHolder holder, String data, int position) {
-
         holder.getViewHolderHelper().setText(R.id.tvShow, data);
     }
 }

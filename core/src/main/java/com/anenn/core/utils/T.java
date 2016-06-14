@@ -15,12 +15,25 @@ public class T {
         toast = Toast.makeText(context, "", Toast.LENGTH_LONG);
     }
 
+    public static void show(@NonNull CharSequence message) {
+        t(message);
+    }
+
+    public static void show(@NonNull String message) {
+        t(message);
+    }
+
     public static void showLong(@NonNull CharSequence message) {
         t(message);
         t(message);
     }
 
-    public static void t(@NonNull CharSequence message) {
+    public static void showLong(@NonNull String message) {
+        t(message);
+        t(message);
+    }
+
+    private static void t(@NonNull CharSequence message) {
         if (toast == null) {
             throw new IllegalStateException("Toast is not initialized");
         }
@@ -31,7 +44,7 @@ public class T {
         }
     }
 
-    public static void t(@NonNull String message) {
+    private static void t(@NonNull String message) {
         if (toast == null) {
             throw new IllegalStateException("Toast is not initialized");
         }

@@ -12,6 +12,8 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import java.util.concurrent.ThreadPoolExecutor;
+
 /**
  * 图片管理工具
  * Created by Anenn on 15-7-23
@@ -25,7 +27,6 @@ public class ImageLoaderUtil {
 
     public static void init(Context context) {
         ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(context)
-                .threadPriority(Thread.NORM_PRIORITY - 2)
                 .denyCacheImageMultipleSizesInMemory()
                 .diskCacheFileNameGenerator(new Md5FileNameGenerator())
                 .diskCacheSize(50 * 1024 * 1024) // 50 Mb
@@ -49,34 +50,34 @@ public class ImageLoaderUtil {
             .considerExifParams(true)
             .build();
 
-    public static void loadImage(String url, ImageView imageView) {
+    public static void displayImage(String url, ImageView imageView) {
         mImageLoader.displayImage(url, imageView, AVATAR_OPTIONS);
     }
 
-    public static void loadImage(String url, ImageView imageView, DisplayImageOptions imageOptions) {
+    public static void displayImage(String url, ImageView imageView, DisplayImageOptions imageOptions) {
         mImageLoader.displayImage(url, imageView, imageOptions);
     }
 
-    public static void loadImage(String url, ImageView imageView, SimpleImageLoadingListener loadingListener) {
+    public static void displayImage(String url, ImageView imageView, SimpleImageLoadingListener loadingListener) {
         mImageLoader.displayImage(url, imageView, AVATAR_OPTIONS, loadingListener);
     }
 
-    public static void loadImage(String url, ImageView imageView, DisplayImageOptions imageOptions,
-                                 SimpleImageLoadingListener loadingListener) {
+    public static void displayImage(String url, ImageView imageView, DisplayImageOptions imageOptions,
+                                    SimpleImageLoadingListener loadingListener) {
         mImageLoader.displayImage(url, imageView, imageOptions, loadingListener);
     }
 
-    public static void loadImage(String url, ImageView imageView, ImageLoadingProgressListener progressListener) {
+    public static void displayImage(String url, ImageView imageView, ImageLoadingProgressListener progressListener) {
         mImageLoader.displayImage(url, imageView, AVATAR_OPTIONS, null, progressListener);
     }
 
-    public static void loadImage(String url, ImageView imageView, SimpleImageLoadingListener loadingListener,
-                                 ImageLoadingProgressListener progressListener) {
+    public static void displayImage(String url, ImageView imageView, SimpleImageLoadingListener loadingListener,
+                                    ImageLoadingProgressListener progressListener) {
         mImageLoader.displayImage(url, imageView, AVATAR_OPTIONS, loadingListener, progressListener);
     }
 
-    public static void loadImage(String url, ImageView imageView, DisplayImageOptions imageOptions,
-                                 ImageLoadingListener loadingListener, ImageLoadingProgressListener progressListener) {
+    public static void displayImage(String url, ImageView imageView, DisplayImageOptions imageOptions,
+                                    ImageLoadingListener loadingListener, ImageLoadingProgressListener progressListener) {
         mImageLoader.displayImage(url, imageView, imageOptions, loadingListener, progressListener);
     }
 
@@ -86,5 +87,9 @@ public class ImageLoaderUtil {
 
     public static void pause() {
         mImageLoader.pause();
+    }
+
+    public static void stop() {
+        mImageLoader.stop();
     }
 }

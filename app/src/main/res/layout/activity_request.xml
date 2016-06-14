@@ -7,14 +7,6 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="toChoice"
-        android:text="选择图片" />
-
-    <ImageView
-        android:id="@+id/ivShow"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:layout_gravity="center"
-        android:scaleType="centerCrop" />
+        android:onClick="request"
+        android:text="request" />
 </LinearLayout>
-

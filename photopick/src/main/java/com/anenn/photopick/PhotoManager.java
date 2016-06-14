@@ -135,7 +135,7 @@ public class PhotoManager {
 
         int other = MAX_LIMIT - imageInfoList.size();
         if (other <= 0) {
-            T.t(String.format(mContext.getString(R.string.photo_limit), MAX_LIMIT));
+            T.show(String.format(mContext.getString(R.string.photo_limit), MAX_LIMIT));
             return;
         }
 
@@ -302,7 +302,7 @@ public class PhotoManager {
                 mActivity.startActivityForResult(intent, requestCode);
             }
         } catch (ActivityNotFoundException e) {
-            T.t(mContext.getString(R.string.photo_crop_failure));
+            T.show(mContext.getString(R.string.photo_crop_failure));
             dealFilePath();
         }
     }

@@ -451,7 +451,7 @@ public class PhotoPickActivity extends AppCompatActivity implements
             if (mPickData.size() >= mMaxPick) {
                 ((CheckBox) view).setChecked(false);
                 String content = String.format(getString(R.string.photo_limit), mMaxPick);
-                T.t(content);
+                T.show(content);
                 return;
             }
             addPicked(tag.path);

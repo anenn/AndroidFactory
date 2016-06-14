@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -33,7 +32,7 @@ public class AliPayUtil implements Callback {
     // 支付宝支付请求回调
     private IAliPayCallback mIAliPayCallback;
     // 消息处理器
-    private WeakHandler mHandler;
+    private WeakHandler mWeakHandler;
 
     /**
      * 初始化对象
@@ -43,20 +42,14 @@ public class AliPayUtil implements Callback {
     public AliPayUtil(@NonNull Activity activity, IAliPayCallback iAliPayCallback) {
         mActivity = activity;
         mIAliPayCallback = iAliPayCallback;
-        mHandler = new WeakHandler(activity, this);
-    }
-
-    public AliPayUtil(@NonNull Fragment fragment, IAliPayCallback iAliPayCallback) {
-        mActivity = fragment.getActivity();
-        mIAliPayCallback = iAliPayCallback;
-        mHandler = new WeakHandler(mActivity, this);
+        mWeakHandler = new WeakHandler(this);
     }
 
     /**
      * 消息处理
      *
      * @param msg 消息对象
-     * @return 是否处理了消息
+     * @return 是否消费消息
      */
     @Override
     public boolean handleMessage(Message msg) {
@@ -71,7 +64,6 @@ public class AliPayUtil implements Callback {
 
                 // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                 if (TextUtils.equals(resultStatus, "9000")) {
-                    Toast.makeText(mActivity, "支付成功", Toast.LENGTH_LONG).show();
                     if (mIAliPayCallback != null) {
                         mIAliPayCallback.aliPaySuccess();
                     }
@@ -79,13 +71,11 @@ public class AliPayUtil implements Callback {
                     // 判断resultStatus 为非“9000”则代表可能支付失败
                     // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
                     if (TextUtils.equals(resultStatus, "8000")) {
-                        Toast.makeText(mActivity, "支付结果确认中", Toast.LENGTH_SHORT).show();
                         if (mIAliPayCallback != null) {
                             mIAliPayCallback.aliPaying();
                         }
                     } else {
                         // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-                        Toast.makeText(mActivity, "支付失败", Toast.LENGTH_SHORT).show();
                         if (mIAliPayCallback != null) {
                             mIAliPayCallback.aliPayFailed();
                         }
@@ -97,8 +87,6 @@ public class AliPayUtil implements Callback {
                 Toast.makeText(mActivity, "检查结果为：" + msg.obj, Toast.LENGTH_SHORT).show();
                 break;
             }
-            default:
-                break;
         }
         return true;
     }
@@ -140,17 +128,18 @@ public class AliPayUtil implements Callback {
             public void run() {
                 // 构造 PayTask 对象
                 PayTask aliPay = new PayTask(mActivity);
-                // 调用支付接口，获取支付结果
+                // 调用支付接口，获取支付结果, 必须异步调用
                 String result = aliPay.pay(payInfo);
-                Message msg = mHandler.obtainMessage();
-                msg.what = MSG_PAY;
-                msg.obj = result;
-                if (mHandler != null)
-                    mHandler.sendMessage(msg);
+
+                if (mWeakHandler != null) {
+                    Message msg = mWeakHandler.obtainMessage();
+                    msg.what = MSG_PAY;
+                    msg.obj = result;
+                    mWeakHandler.sendMessage(msg);
+                }
             }
         };
 
-        // 必须异步调用
         Thread payThread = new Thread(payRunnable);
         payThread.start();
     }
@@ -220,6 +209,15 @@ public class AliPayUtil implements Callback {
     }
 
     /**
+     * sign the order info. 对订单信息进行签名
+     *
+     * @param content 待签名订单信息
+     */
+    private String sign(String content, String privateKey) {
+        return SignUtils.sign(content, privateKey);
+    }
+
+    /**
      * 获取sign_type参数信息，因为该参数不需要参加签名
      * 获取签名方式
      *
@@ -227,15 +225,6 @@ public class AliPayUtil implements Callback {
      */
     private String getSignType() {
         return "sign_type=\"RSA\"";
-    }
-
-    /**
-     * sign the order info. 对订单信息进行签名
-     *
-     * @param content 待签名订单信息
-     */
-    private String sign(String content, String privateKey) {
-        return SignUtils.sign(content, privateKey);
     }
 
     /**
@@ -251,11 +240,12 @@ public class AliPayUtil implements Callback {
                 // 调用查询接口，获取查询结果
                 boolean isExist = payTask.checkAccountIfExist();
 
-                Message msg = mHandler.obtainMessage();
-                msg.what = AliPayUtil.MSG_LOGIN;
-                msg.obj = isExist;
-                if (mHandler != null)
-                    mHandler.sendMessage(msg);
+                if (mWeakHandler != null) {
+                    Message msg = mWeakHandler.obtainMessage();
+                    msg.what = AliPayUtil.MSG_LOGIN;
+                    msg.obj = isExist;
+                    mWeakHandler.sendMessage(msg);
+                }
             }
         };
 
@@ -282,10 +272,10 @@ public class AliPayUtil implements Callback {
      * 释放资源
      */
     public void onDestroy() {
-        if (mHandler != null) {
-            mHandler.removeMessages(AliPayUtil.MSG_PAY);
-            mHandler.removeMessages(AliPayUtil.MSG_LOGIN);
-            mHandler = null;
+        if (mWeakHandler != null) {
+            mWeakHandler.removeMessages(AliPayUtil.MSG_PAY);
+            mWeakHandler.removeMessages(AliPayUtil.MSG_LOGIN);
+            mWeakHandler = null;
         }
     }
 
@@ -307,20 +297,18 @@ public class AliPayUtil implements Callback {
      * 弱引用的消息处理器
      */
     private static class WeakHandler extends Handler {
-        private WeakReference<Activity> reference = null;
-        private Callback callback;
+        private WeakReference<Callback> reference = null;
 
-        public WeakHandler(Activity activity, Callback callback) {
-            reference = new WeakReference<>(activity);
-            this.callback = callback;
+        public WeakHandler(Callback callback) {
+            reference = new WeakReference<>(callback);
         }
 
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            Activity activity = reference.get();
-            if (activity != null && callback != null) {
+            Callback callback = reference.get();
+            if (callback != null) {
                 callback.handleMessage(msg);
             }
         }

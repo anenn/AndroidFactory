@@ -110,7 +110,7 @@ public class PhotoPickDetailActivity extends AppCompatActivity {
                     if (mPickImageInfo.size() >= mMaxPick) {
                         ((CheckBox) v).setChecked(false);
                         String content = String.format(getString(R.string.photo_limit), mMaxPick);
-                        T.t(content);
+                        T.show(content);
                         return;
                     }
                     addPicked(uri);

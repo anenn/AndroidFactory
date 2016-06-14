@@ -124,7 +124,7 @@ public final class ViewHolderHelper implements View.OnClickListener, View.OnLong
 
     public ViewHolderHelper setImageUrl(int viewId, String url) {
         ImageView imageView = obtainView(viewId);
-        ImageLoaderUtil.loadImage(url, imageView);
+        ImageLoaderUtil.displayImage(url, imageView);
         return this;
     }
 

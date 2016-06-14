@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="ExEditText">
-        <attr name="crossed" format="boolean" />
+        <attr name="clear_drawable" format="reference" />
+        <attr name="open_drawable" format="reference" />
+        <attr name="close_drawable" format="reference" />
     </declare-styleable>
 </resources>
